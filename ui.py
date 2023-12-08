@@ -67,28 +67,29 @@ def run(entradas_matriz):
       
     print ("The maximum possible flow is %d " % g.FordFulkerson(source, dest))
 
-# Criar a janela principal
-janela = tk.Tk()
-janela.title("Criador de Rede")
+def init():
+  # Criar a janela principal
+  janela = tk.Tk()
+  janela.title("Criador de Rede")
 
-# Criar widgets
-rotulo_quantidade = tk.Label(janela, text="Quantidade de Roteadores")
-entrada_quantidade = tk.Entry(janela, width=10)
-botao_criar_rede = tk.Button(janela, text="Criar Rede", command=criar_rede)
+  # Criar widgets
+  rotulo_quantidade = tk.Label(janela, text="Quantidade de Roteadores")
+  entrada_quantidade = tk.Entry(janela, width=10)
+  botao_criar_rede = tk.Button(janela, text="Criar Rede", command=criar_rede)
 
-# Organizar os widgets na janela
-rotulo_quantidade.pack(pady=10)
-entrada_quantidade.pack(pady=10)
-botao_criar_rede.pack(pady=10)
+  # Organizar os widgets na janela
+  rotulo_quantidade.pack(pady=10)
+  entrada_quantidade.pack(pady=10)
+  botao_criar_rede.pack(pady=10)
 
-# Definir o tamanho padrão da janela
-largura_padrao = 600
-altura_padrao = 550
-janela.geometry(f"{largura_padrao}x{altura_padrao}")
+  # Definir o tamanho padrão da janela
+  largura_padrao = 600
+  altura_padrao = 550
+  janela.geometry(f"{largura_padrao}x{altura_padrao}")
 
-# Frame para a matriz de entradas
-matriz_frame = tk.Frame(janela)
-matriz_frame.pack()
+  # Frame para a matriz de entradas
+  matriz_frame = tk.Frame(janela)
+  matriz_frame.pack()
 
-# Iniciar o loop principal da janela
-janela.mainloop()
+  # Iniciar o loop principal da janela
+  janela.mainloop()

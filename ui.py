@@ -4,92 +4,91 @@ from fordFulkerson import Graph
 
 def criar_rede():
     try:
-        quantidade_roteadores = int(entrada_quantidade.get())
-        if quantidade_roteadores > 0:
-            criar_matriz(quantidade_roteadores)
+        routes_amount = int(input_amount.get())
+        if routes_amount > 0:
+            criar_matriz(routes_amount)
         else:
             messagebox.showerror("Erro", "Insira um valor maior que zero para a quantidade de roteadores.")
     except ValueError:
         messagebox.showerror("Erro", "Por favor, insira um valor numérico válido.")
 
 def criar_matriz(n):
-    # Limpar widgets antigos (se existirem)
     for widget in matriz_frame.winfo_children():
         widget.destroy()
 
-    rotulo_instrucao = tk.Label(matriz_frame, text="Insira na matriz de adjacência a largura de banda de cada cabo conectado aos roteadores:")
-    rotulo_instrucao.grid(row=0, column=0, columnspan=n + 1, pady=10)
+    label_description = tk.Label(matriz_frame, text="Insira na matriz de adjacência a largura de banda de cada cabo conectado aos roteadores:")
+    label_description.grid(row=0, column=0, columnspan=n + 1, pady=10)
 
-    # Criar rótulos para índices de coluna
     for j in range(n + 1):
         if j == 0:
-            rotulo_coluna = tk.Label(matriz_frame, text="", width=5)
+            label_column = tk.Label(matriz_frame, text="", width=5)
         else:
-            rotulo_coluna = tk.Label(matriz_frame, text=str(j-1) + ".", width=5)
-        rotulo_coluna.grid(row=1, column=j, padx=5, pady=5)
+            label_column = tk.Label(matriz_frame, text=str(j-1) + ".", width=5)
+        label_column.grid(row=1, column=j, padx=5, pady=5)
 
-    # Criar uma matriz de entradas com rótulos de linha
-    entradas_matriz = []
+    matrix_inputs = []
     for i in range(n):
-        rotulo_linha = tk.Label(matriz_frame, text=str(i) + ".", padx=10)
-        rotulo_linha.grid(row=i + 2, column=0, padx=5, pady=5)
+        label_row = tk.Label(matriz_frame, text=str(i) + ".", padx=10)
+        label_row.grid(row=i + 2, column=0, padx=5, pady=5)
 
-        linha_entradas = []
+        row_input = []
         for j in range(n):
-            entrada = tk.Entry(matriz_frame, width=5)
-            entrada.insert(0, "0")
-            entrada.grid(row=i + 2, column=j + 1, padx=5, pady=5)
-            linha_entradas.append(entrada)
-        entradas_matriz.append(linha_entradas)
+            value = tk.Entry(matriz_frame, width=5)
+            value.insert(0, "0")
+            value.grid(row=i + 2, column=j + 1, padx=5, pady=5)
+            row_input.append(value)
+        matrix_inputs.append(row_input)
 
-    botao_run = tk.Button(matriz_frame, text="Calcular fluxo máximo", command=lambda: run(entradas_matriz))
+    botao_run = tk.Button(matriz_frame, text="Calcular fluxo máximo", command=lambda: run(matrix_inputs))
     botao_run.grid(row=n + 2, columnspan=n + 1, pady=10)
 
-def run(entradas_matriz):
-    # Recuperar os valores da matriz
-    valores_matriz = []
-    for linha_entradas in entradas_matriz:
-        linha_valores = []
-        for entrada in linha_entradas:
+def run(matrix_inputs):
+    matrix_values = []
+    for row_input in matrix_inputs:
+        row_values = []
+        for entrada in row_input:
             try:
-                valor = int(entrada.get())
-                if valor < 0:
+                value = int(entrada.get())
+                if value < 0:
                     raise ValueError("Insira valores inteiros acima de zero.")
-                linha_valores.append(valor)
+                row_values.append(value)
             except ValueError:
                 messagebox.showerror("Erro", "Por favor, insira valores inteiros acima de zero.")
                 return
-        valores_matriz.append(linha_valores)
+        matrix_values.append(row_values)
 
-    graph = valores_matriz
+    graph = matrix_values
+    # to test
+    # graph = [[0, 11, 12, 0, 0, 0], 
+    #          [0, 0, 0, 12, 0, 0], 
+    #          [0, 1, 0, 0, 11, 0], 
+    #          [0, 0, 0, 0, 0, 19], 
+    #          [0, 0, 0, 7, 0, 4],
+    #          [0, 0, 0, 0, 0, 0]]
+    # result is 23
     g = Graph(graph)
-    source = 0; dest = int(entrada_quantidade.get())
-      
-    print ("The maximum possible flow is %d " % g.FordFulkerson(source, dest))
+    source = 0; dest = int(input_amount.get())
+    result = "O fluxo máximo é %d " % g.FordFulkerson(source, dest)
+    label_result = tk.Label(window, text=result)
+    label_result.pack(pady=10)
 
-def init():
-  # Criar a janela principal
-  janela = tk.Tk()
-  janela.title("Criador de Rede")
 
-  # Criar widgets
-  rotulo_quantidade = tk.Label(janela, text="Quantidade de Roteadores")
-  entrada_quantidade = tk.Entry(janela, width=10)
-  botao_criar_rede = tk.Button(janela, text="Criar Rede", command=criar_rede)
+window = tk.Tk()
+window.title("Problema do Fluxo Máximo")
 
-  # Organizar os widgets na janela
-  rotulo_quantidade.pack(pady=10)
-  entrada_quantidade.pack(pady=10)
-  botao_criar_rede.pack(pady=10)
+label_amount = tk.Label(window, text="Quantidade de Roteadores")
+input_amount = tk.Entry(window, width=10)
+create_network_button = tk.Button(window, text="Criar Rede", command=criar_rede)
 
-  # Definir o tamanho padrão da janela
-  largura_padrao = 600
-  altura_padrao = 550
-  janela.geometry(f"{largura_padrao}x{altura_padrao}")
+label_amount.pack(pady=10)
+input_amount.pack(pady=10)
+create_network_button.pack(pady=10)
 
-  # Frame para a matriz de entradas
-  matriz_frame = tk.Frame(janela)
-  matriz_frame.pack()
+width = 600
+height = 550
+window.geometry(f"{width}x{height}")
 
-  # Iniciar o loop principal da janela
-  janela.mainloop()
+matriz_frame = tk.Frame(window)
+matriz_frame.pack()
+
+window.mainloop()

@@ -1,3 +1,1 @@
-from ui import init
-
-init()
+import ui

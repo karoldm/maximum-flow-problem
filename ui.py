@@ -58,6 +58,7 @@ def run(matrix_inputs):
         matrix_values.append(row_values)
 
     graph = matrix_values
+    
     # to test
     # graph = [[0, 11, 12, 0, 0, 0], 
     #          [0, 0, 0, 12, 0, 0], 
@@ -66,6 +67,16 @@ def run(matrix_inputs):
     #          [0, 0, 0, 7, 0, 4],
     #          [0, 0, 0, 0, 0, 0]]
     # result is 23
+
+    # to test
+    # graph = [[0, 8, 0, 0, 3, 0],
+    #         [0, 0, 9, 0, 0, 0],
+    #         [0, 0, 0, 0, 7, 2],
+    #         [0, 0, 0, 0, 0, 5],
+    #         [0, 0, 7, 4, 0, 0],
+    #         [0, 0, 0, 0, 0, 0]]
+    # result is 6
+
     g = Graph(graph)
     source = 0; dest = int(input_amount.get())
     result = "O fluxo máximo é %d " % g.FordFulkerson(source, dest)

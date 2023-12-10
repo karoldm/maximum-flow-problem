@@ -4,11 +4,11 @@ class Graph:
  
     def __init__(self, graph):
         self.graph = graph  
-        self.ROW = len(graph)
+        self.row = len(graph)
  
     def BFS(self, s, t, parent):
  
-        visited = [False]*(self.ROW)
+        visited = [False]*(self.row)
  
         queue = []
  
@@ -19,34 +19,34 @@ class Graph:
 
             u = queue.pop(0)
 
-            for ind, val in enumerate(self.graph[u]):
-                if visited[ind] == False and val > 0:
-                    queue.append(ind)
-                    visited[ind] = True
-                    parent[ind] = u
-                    if ind == t:
+            for i, value in enumerate(self.graph[u]):
+                if visited[i] == False and value > 0:
+                    queue.append(i)
+                    visited[i] = True
+                    parent[i] = u
+                    if i == t:
                         return True
  
         return False
              
      
-    def FordFulkerson(self, source, sink):
+    def FordFulkerson(self, source, dest):
  
-        parent = [-1]*(self.ROW)
+        parent = [-1]*(self.row)
  
         max_flow = 0
  
-        while self.BFS(source, sink, parent) :
+        while self.BFS(source, dest, parent) :
  
             path_flow = float("Inf")
-            s = sink
+            s = dest
             while(s !=  source):
                 path_flow = min (path_flow, self.graph[parent[s]][s])
                 s = parent[s]
  
             max_flow +=  path_flow
  
-            v = sink
+            v = dest
             while(v !=  source):
                 u = parent[v]
                 self.graph[u][v] -= path_flow

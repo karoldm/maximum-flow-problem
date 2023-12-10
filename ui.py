@@ -1,8 +1,13 @@
 import tkinter as tk
 from tkinter import messagebox
+from tkinter import ttk
+
 from fordFulkerson import Graph
 
 def criar_rede():
+    if hasattr(window, 'label_result'):
+        window.label_result.destroy()
+
     try:
         routes_amount = int(input_amount.get())
         if routes_amount > 0:
@@ -39,7 +44,7 @@ def criar_matriz(n):
             row_input.append(value)
         matrix_inputs.append(row_input)
 
-    botao_run = tk.Button(matriz_frame, text="Calcular fluxo máximo", command=lambda: run(matrix_inputs))
+    botao_run = ttk.Button(matriz_frame, text="Calcular fluxo máximo", command=lambda: run(matrix_inputs))
     botao_run.grid(row=n + 2, columnspan=n + 1, pady=10)
 
 def run(matrix_inputs):
@@ -78,25 +83,33 @@ def run(matrix_inputs):
     # result is 6
 
     g = Graph(graph)
-    source = 0; dest = int(input_amount.get())
+    source = 0; dest = int(input_amount.get())-1
     result = "O fluxo máximo é %d " % g.FordFulkerson(source, dest)
-    label_result = tk.Label(window, text=result)
-    label_result.pack(pady=10)
+
+    if hasattr(window, 'label_result'):
+        window.label_result.destroy()
+
+    window.label_result = tk.Label(window, text=result)
+    window.label_result.pack(pady=10)
 
 
 window = tk.Tk()
 window.title("Problema do Fluxo Máximo")
 
+style = ttk.Style()
+style.theme_use('clam')
+style.configure('TButton', foreground='white', background='#fcba03', font=('poppins', 12))
+
 label_amount = tk.Label(window, text="Quantidade de Roteadores")
 input_amount = tk.Entry(window, width=10)
-create_network_button = tk.Button(window, text="Criar Rede", command=criar_rede)
+create_network_button = ttk.Button(window, text="Criar Rede", command=criar_rede)
 
 label_amount.pack(pady=10)
 input_amount.pack(pady=10)
 create_network_button.pack(pady=10)
 
 width = 600
-height = 550
+height = 500
 window.geometry(f"{width}x{height}")
 
 matriz_frame = tk.Frame(window)
